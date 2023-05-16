@@ -51,7 +51,17 @@ except InvalidPasswordError as p:
 
 #3
 class InvalidFileFormatError(Exception):
-    def __init__(self, filename):
-        self.filename=filename
+    def __init__(self, f):
+        self.f=f
 
-def read_file(filename):
+def read_file(f):
+    try:
+        with open(f, "r") as file:
+            content=file.read()
+            print("File contain:", content)
+    except IOError:
+        raise InvalidFileFormatError(f)
+try:
+    read_file(input('Name of file: '))
+except InvalidFileFormatError as x:
+    print(f'Wrong format of file {x.f}, supporting only text files')
